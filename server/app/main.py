@@ -292,6 +292,10 @@ opdracht8_json = {
     ]
 }
 
-@app.get("/opdracht8")
+@app.post("/opdracht8")
 async def opdracht8():
-    return opdracht8_json
+    if body.nr1 == opdracht1_json['regels'][1] and body.nr2 == opdracht1_json['regels'][2] and body.nr3 == \
+            opdracht1_json['regels'][0]:
+        return opdracht2_json
+    else:
+        return fout_antwoord
