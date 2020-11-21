@@ -295,19 +295,19 @@ opdracht8_json = {
     "message": { "You won the treasure hunt!" }
 }
 
-@app.post("/opdracht8")
-async def opdracht8():
+#@app.post("/opdracht8")
+#async def opdracht8(body: Opdracht8Body):
     # We assume that the key was somehow securely shared
-    try:
-        b64 = json.loads(json_input)
-        nonce = b64decode(b64['nonce'])
-        ciphertext = b64decode(b64['ciphertext'])
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        plaintext = cipher.decrypt(ciphertext)
-        print("The message was " + plaintext)
-        if plaintext == opdracht7_json['bericht']:
-            return opdracht8_json
-        else:
-            return fout_antwoord
-    except ValueError, KeyError:
-        print("Incorrect decryption")
+    #try:
+    #    b64 = json.loads(json_input)
+    #    nonce = b64decode(b64['nonce'])
+    #    ciphertext = b64decode(b64['ciphertext'])
+    #    cipher = ChaCha20.new(key=key, nonce=nonce)
+    #    plaintext = cipher.decrypt(ciphertext)
+    #    print("The message was " + plaintext)
+    #    if plaintext == opdracht7_json['bericht']:
+    #        return opdracht8_json
+    #    else:
+    #        return fout_antwoord
+    #except ValueError, KeyError:
+    #    print("Incorrect decryption")
