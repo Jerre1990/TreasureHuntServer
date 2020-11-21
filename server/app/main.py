@@ -70,8 +70,6 @@ class Opdracht7Body(BaseModel):
 
 class Opdracht8Body(BaseModel):
     bericht_ontcijferd: str
-    sleutel: str
-    nonce: str
 
 
 fout_antwoord = Response(content='Fout antwoord!')
@@ -266,8 +264,9 @@ opdracht7_json = {
             " Gebruik hexadecimale encodering voor het versturen van ruwe bits/bytes."
             " Je JSON ziet er als volgt uit: {'bericht_versleuteld' : '...', 'sleutel' : '...', 'nonce' : '...'}")
     },
-    "bericht": "Geheim bericht bestemd voor de docenten IoT aan de KdG",
-    "karakterset": "utf-8"
+    "bericht": "0er1hBCs60C9fT6h3ia5FRy/FsBmAQTdhUYt0zzDE1nu",
+    "key": "b'\x93THw\xa5\xba\x9e\x9a\x8b\x1a\x0c~L\x86\xd9" + "\xd8\xb3\xfa\xfe\xab\x9e\xc3\xac\x12\x1b\x00\xfb\xd0\xa6\xe5\x07'",
+    "nonce": "d3HLRggIaKg="
 }
 
 
@@ -291,23 +290,20 @@ async def opdracht7(body: Opdracht7Body):
         return fout_antwoord
 
 
+opdracht8_bericht_ontcijferd = "The ultra secret password is: 123"
+
 opdracht8_json = {
-    "message": { "You won the treasure hunt!" }
+    "opdracht": {
+        "id": 8,
+        "beschrijving": (
+            "You won the treasure hunt!")
+    }
 }
 
-#@app.post("/opdracht8")
-#async def opdracht8(body: Opdracht8Body):
-    # We assume that the key was somehow securely shared
-    #try:
-    #    b64 = json.loads(json_input)
-    #    nonce = b64decode(b64['nonce'])
-    #    ciphertext = b64decode(b64['ciphertext'])
-    #    cipher = ChaCha20.new(key=key, nonce=nonce)
-    #    plaintext = cipher.decrypt(ciphertext)
-    #    print("The message was " + plaintext)
-    #    if plaintext == opdracht7_json['bericht']:
-    #        return opdracht8_json
-    #    else:
-    #        return fout_antwoord
-    #except ValueError, KeyError:
-    #    print("Incorrect decryption")
+
+@app.post("/opdracht8")
+async def opdracht8(body: Opdracht8Body):
+    if body.bericht_ontcijferd == opdracht8_bericht_ontcijferd:
+        return opdracht8_json
+    else:
+        return fout_antwoord
