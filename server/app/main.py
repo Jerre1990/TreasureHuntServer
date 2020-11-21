@@ -257,16 +257,16 @@ opdracht7_json = {
     "opdracht": {
         "id": 7,
         "beschrijving": (
-            "Ontcijfer onderstaand bericht met de ChaCha20 encryptietechniek."
+            " Ontcijfer onderstaand bericht met de ChaCha20 encryptietechniek."
             " Maak hiervoor gebruik van de Bernstein versie met een nonce van 8 bytes."
-            " Gebruik je eigen nonce en 256-bit sleutel."
-            " Het versleuteld bericht stuur je samen met de nonce en sleutel in via een POST request in JSON-formaat voor de volgende opdracht."
-            " Gebruik hexadecimale encodering voor het versturen van ruwe bits/bytes."
-            " Je JSON ziet er als volgt uit: {'bericht_versleuteld' : '...', 'sleutel' : '...', 'nonce' : '...'}")
+            " De key bestaat uit 32 random bytes die omgezet zijn naar hexadecimale waarden."
+            " De nonce en het bericht zijn ook hexadecimale waarden."
+            " Het ontcijferd bericht stuur je in via een POST request in JSON-formaat voor de volgende opdracht."
+            " Je JSON ziet er als volgt uit: {'bericht_ontcijferd' : '...'}")
     },
-    "bericht": "0er1hBCs60C9fT6h3ia5FRy/FsBmAQTdhUYt0zzDE1nu",
-    "key": "b'\x93THw\xa5\xba\x9e\x9a\x8b\x1a\x0c~L\x86\xd9" + "\xd8\xb3\xfa\xfe\xab\x9e\xc3\xac\x12\x1b\x00\xfb\xd0\xa6\xe5\x07'",
-    "nonce": "d3HLRggIaKg="
+    "bericht": "61009c2cdb0b1326bdccfc689a7fb6dec1a6479af2bd4833c4b9b99fa09f634da3",
+    "key": "56c358f80430fd6e3da571b06a4b301d26af980f08a509d288d13e70847ddcf4",
+    "nonce": "564401756dd4574e"
 }
 
 
