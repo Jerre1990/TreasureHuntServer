@@ -293,6 +293,7 @@ async def opdracht7(body: Opdracht7Body):
 
 opdracht8_json = {
     "message": { "You won the treasure hunt!" }
+}
 
 @app.post("/opdracht8")
 async def opdracht8():
