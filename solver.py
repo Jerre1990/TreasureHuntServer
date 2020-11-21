@@ -1,8 +1,4 @@
-#import json
-#from base64 import b64encode
 from Crypto.Cipher import ChaCha20
-#from Crypto.Random import get_random_bytes
-#from base64 import b64decode
 import requests
 
 url = 'http://192.168.1.21:8000'    # Server location (change to your server)
