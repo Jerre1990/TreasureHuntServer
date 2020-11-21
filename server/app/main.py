@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 import base64
 from Crypto.Hash import SHA1, SHA256, SHA512, MD5
-from Crypto.Cipher import AES, PKCS1_OAEP
+from Crypto.Cipher import AES, PKCS1_OAEP, ChaCha20
 from Crypto.Signature import pkcs1_15
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
