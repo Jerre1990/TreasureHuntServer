@@ -68,6 +68,12 @@ class Opdracht7Body(BaseModel):
     nonce: str
 
 
+class Opdracht8Body(BaseModel):
+    bericht_ontcijferd: str
+    sleutel: str
+    nonce: str
+
+
 fout_antwoord = Response(content='Fout antwoord!')
 
 
@@ -253,9 +259,15 @@ opdracht7_json = {
     "opdracht": {
         "id": 7,
         "beschrijving": (
-            "Hier stopt voorlopig je zoektocht niet!"
-            "Want er is nog een volgende opdracht.")
-    }
+            "Ontcijfer onderstaand bericht met de ChaCha20 encryptietechniek."
+            " Maak hiervoor gebruik van de Bernstein versie met een nonce van 8 bytes."
+            " Gebruik je eigen nonce en 256-bit sleutel."
+            " Het versleuteld bericht stuur je samen met de nonce en sleutel in via een POST request in JSON-formaat voor de volgende opdracht."
+            " Gebruik hexadecimale encodering voor het versturen van ruwe bits/bytes."
+            " Je JSON ziet er als volgt uit: {'bericht_versleuteld' : '...', 'sleutel' : '...', 'nonce' : '...'}")
+    },
+    "bericht": "Geheim bericht bestemd voor de docenten IoT aan de KdG",
+    "karakterset": "utf-8"
 }
 
 
@@ -280,22 +292,21 @@ async def opdracht7(body: Opdracht7Body):
 
 
 opdracht8_json = {
-    "opdracht": {
-        "id": 8,
-        "beschrijving": (
-            "Dit is de 8ste opdracht")
-    },
-    "regels": [
-        "Derde regel",
-        "Eerste regel",
-        "Tweede regel"
-    ]
-}
+    "message": { "You won the treasure hunt!" }
 
 @app.post("/opdracht8")
 async def opdracht8():
-    if body.nr1 == opdracht1_json['regels'][1] and body.nr2 == opdracht1_json['regels'][2] and body.nr3 == \
-            opdracht1_json['regels'][0]:
-        return opdracht2_json
-    else:
-        return fout_antwoord
+    # We assume that the key was somehow securely shared
+    try:
+        b64 = json.loads(json_input)
+        nonce = b64decode(b64['nonce'])
+        ciphertext = b64decode(b64['ciphertext'])
+        cipher = ChaCha20.new(key=key, nonce=nonce)
+        plaintext = cipher.decrypt(ciphertext)
+        print("The message was " + plaintext)
+        if plaintext == opdracht7_json['bericht']:
+            return opdracht8_json
+        else:
+            return fout_antwoord
+    except ValueError, KeyError:
+        print("Incorrect decryption")
