@@ -27,7 +27,7 @@ def encode_base64_bytes(message: bytes):
     base64_hex = base64_bytes.hex()
     base64_ascii = base64_bytes.decode('ascii')
     return base64_bytes, base64_hex, base64_ascii
-    
+
 def hash(file, hash_buffer):
     buffer_size = 65536  # 64 KB
     file.seek(0)
@@ -58,6 +58,10 @@ class Opdracht7Body(BaseModel):
     bericht_versleuteld: str
     sleutel: str
     nonce: str
+
+class Opdracht8Body(BaseModel):
+    encrypted_data: str
+    prive_sleutel: str
 
 fout_antwoord = Response(content='Fout antwoord!')
 
@@ -229,8 +233,13 @@ opdracht7_json = {
     "opdracht" : {
         "id" : 7,
         "beschrijving" : (
-            "Hier stopt voorlopig je zoektocht!")
-    }
+            "Beantwoord de vraag en stuur deze versleuteld samen met de prive sleutel door gebruik te maken van asymmetrische  encryptie."
+            "Gebruik het RSA algoritme om de keys te genereren."
+            "Stuur het versleuteld bericht en de private key door via een POST request in JSON-formaat."
+            "Je JSON ziet er als volgt uit: {'versleuteld_bericht' : '...', 'prive_sleutel' : '...'}")
+    },
+    "bericht" : "Wat is de afkorting van Karel de Grote Hogeschool",
+    "karakterset" : "utf-8"
 }
 
 @app.post("/opdracht7")
@@ -247,6 +256,34 @@ async def opdracht7(body: Opdracht7Body):
         plaintext = plaintext_bytes.decode(opdracht6_json['karakterset'])
         if plaintext == opdracht6_json['bericht']:
             return opdracht7_json
+        else:
+            return fout_antwoord
+    except:
+        return fout_antwoord
+
+
+opdracht8_json = {
+    "opdracht" : {
+        "id" : 8,
+        "beschrijving" : (
+            "Goed gedaan dit is het einde van de huidige zoektocht !"
+            )
+    }
+}
+
+
+@app.post("/opdracht8")
+async def opdracht8(body: Opdracht8Body):
+    try:
+        private_key = bytes.fromhex(body.prive_sleutel)
+        decrypted_data = bytes.fromhex(body.encrypted_data)
+
+        cipher_rsa = PKCS1_OAEP.new(RSA.import_key(private_key))
+        decrypted_data = cipher_rsa.decrypt(decrypted_data)
+        antwoord = decrypted_data.decode('utf-8')
+
+        if(antwoord.lower() == "kdg"):
+            return opdracht8_json
         else:
             return fout_antwoord
     except:
